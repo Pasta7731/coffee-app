@@ -1,18 +1,33 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { useColorScheme } from 'react-native';
+import { Stack } from "expo-router/stack";
+import { StatusBar } from "expo-status-bar";
 
-import { AnimatedSplashOverlay } from '@/components/animated-icon';
-import AppTabs from '@/components/app-tabs';
+import { CoffeeProvider } from "@/context/coffee-context";
 
-SplashScreen.preventAutoHideAsync();
-
-export default function TabLayout() {
-  const colorScheme = useColorScheme();
+export default function RootLayout() {
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <AnimatedSplashOverlay />
-      <AppTabs />
-    </ThemeProvider>
+    <CoffeeProvider>
+      <StatusBar style="dark" />
+      <Stack
+        screenOptions={{
+          headerShadowVisible: false,
+          headerStyle: { backgroundColor: "#FCF8F1" },
+          headerTintColor: "#1F4D3A",
+          headerTitleStyle: { fontWeight: "700" },
+          headerBackButtonDisplayMode: "minimal",
+          contentStyle: { backgroundColor: "#FCF8F1" },
+        }}
+      >
+        <Stack.Screen name="index" options={{ headerShown: false }} />
+        <Stack.Screen name="menu" options={{ title: "เมนูทั้งหมด" }} />
+        <Stack.Screen name="customize" options={{ title: "ปรับแก้วของคุณ" }} />
+        <Stack.Screen name="cart" options={{ title: "ตะกร้าของคุณ" }} />
+        <Stack.Screen name="checkout" options={{ title: "ยืนยันคำสั่งซื้อ" }} />
+        <Stack.Screen
+          name="confirmation"
+          options={{ headerShown: false, gestureEnabled: false }}
+        />
+        <Stack.Screen name="owner" options={{ title: "จัดการร้าน" }} />
+      </Stack>
+    </CoffeeProvider>
   );
 }
